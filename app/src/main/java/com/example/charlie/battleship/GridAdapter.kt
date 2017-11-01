@@ -4,40 +4,35 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.GridView
 import android.widget.ImageView
 
 
 class GridAdapter(getContext : Context) : BaseAdapter() {
-
     val context = getContext
+    // Required overrides
+    override fun getItem(p0: Int): Any? { return null }
+    override fun getItemId(p0: Int): Long { return 0 }
 
-    override fun getItem(p0: Int): Any? {
-        return null
-    }
-
-    override fun getItemId(p0: Int): Long {
-        return 0
-    }
-
+    // We want 100 tiles
     override fun getCount(): Int {
         return 100
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var imageView : ImageView
+        // Load up a new custom square image if there are none with square dimensions and fill space
+        //  otherwise just set it to return
+        val imageView : SquareImageView
         if (convertView == null) {
-            imageView = ImageView(context)
-            // Figure out what these things mean
-            imageView.layoutParams = ViewGroup.LayoutParams(500, 500)
+            imageView = SquareImageView(context)
+            imageView.layoutParams = ViewGroup.LayoutParams(100, 100)
             imageView.scaleType = ImageView.ScaleType.FIT_XY
-            // Change to 0
-            imageView.setPadding(8,8,8,8)
+            imageView.setPadding(0,0,0,0)
         }
         else {
-            imageView = convertView as ImageView
+            imageView = convertView as SquareImageView
         }
 
+        // Figure out what each tile should be
         if (position % 2 == 0) {
             imageView.setImageResource(R.drawable.oceantile)
         }

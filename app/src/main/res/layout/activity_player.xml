@@ -12,6 +12,7 @@
         android:id="@+id/player1Grid"
         android:numColumns="10"
         android:gravity="center"
+        android:listSelector="@null"
         >
     </GridView>
 

@@ -24,7 +24,7 @@ class PlayerActivity : AppCompatActivity() {
         player1GridView.onItemClickListener = object : OnItemClickListener {
            override fun onItemClick(parent: AdapterView<*>, v: View,
                             position: Int, id: Long) {
-                Toast.makeText(this@PlayerActivity, "" + position,
+                Toast.makeText(this@PlayerActivity, "$position",
                         Toast.LENGTH_SHORT).show()
             }
         }
