@@ -1,10 +1,10 @@
 package com.example.charlie.battleship
 
-/**
- * Created by Charlie on 11/3/2017.
- */
+
 class Ship {
     var coords : MutableList<Int> = mutableListOf()
+
+    lateinit var direction : Direction
 
     fun size() : Int {
         return coords.size

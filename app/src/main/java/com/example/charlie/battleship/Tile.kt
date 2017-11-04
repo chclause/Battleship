@@ -1,8 +1,8 @@
 package com.example.charlie.battleship
 
 
-class Tile {
+class Tile(c: Int) {
     var hasShip : Boolean = false
     var beenHit : Boolean = false
-    var coord : Int = -1
+    var coord : Int = c
 }
