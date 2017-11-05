@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".PlayerActivity" />
-        <activity android:name=".PassActivity"></activity>
+        <activity android:name=".PassActivity" />
+        <activity android:name=".GameOverActivity"></activity>
     </application>
 
 </manifest>

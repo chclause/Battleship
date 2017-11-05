@@ -4,15 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical"
     tools:context="com.example.charlie.battleship.PlayerActivity">
 
     <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/player1Grid"
+        android:id="@+id/largeGrid"
         android:numColumns="10"
-        android:gravity="center"
         >
+    </GridView>
+    
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fireButton"
+        android:text="FIRE"
+        android:layout_gravity="center"/>
+    
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/smallGrid"
+        android:numColumns="10">
     </GridView>
 
 </LinearLayout>

@@ -26,4 +26,7 @@ class PassActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    // Dont allow
+    override fun onBackPressed() {}
 }
