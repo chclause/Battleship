@@ -51,10 +51,12 @@ class GameObject {
             for(ship in player2Ships) {
                 if (ship.coords.contains(position)) {
                     ship.hits.add(position)
-                }
-                if (ship.isSunk) {
-                    player2SunkShips.add(ship)
-                    player2Tiles[position].hasSunkShip = true
+                    if (ship.shipIsSunk()) {
+                        player2SunkShips.add(ship)
+                        for (c in ship.coords) {
+                            player2Tiles[c].hasSunkShip = true
+                        }
+                    }
                 }
             }
             checkWinConditions()
@@ -64,9 +66,11 @@ class GameObject {
                 if (ship.coords.contains(position)) {
                     ship.hits.add(position)
                 }
-                if (ship.isSunk) {
+                if (ship.shipIsSunk()) {
                     player1SunkShips.add(ship)
-                    player1Tiles[position].hasSunkShip = true
+                    for (c in ship.coords) {
+                        player1Tiles[c].hasSunkShip = true
+                    }
                 }
             }
             checkWinConditions()

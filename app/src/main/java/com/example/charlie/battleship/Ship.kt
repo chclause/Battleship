@@ -4,7 +4,6 @@ package com.example.charlie.battleship
 class Ship {
     var coords : MutableList<Int> = mutableListOf()
     var hits   : MutableList<Int> = mutableListOf()
-    var isSunk = false
 
     lateinit var direction : Direction
 

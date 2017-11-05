@@ -45,7 +45,10 @@ class GridAdapter(getContext : Context, id: Int, large: Boolean) : BaseAdapter()
 
         val currentTile = tiles[position]
         // Figure out what each tile should be
-        if (currentTile.hasShip && currentTile.beenHit) {
+        if (currentTile.hasSunkShip) {
+            imageView.setImageResource(R.drawable.sunk)
+        }
+        else if (currentTile.hasShip && currentTile.beenHit) {
             imageView.setImageResource(R.drawable.black)
         }
         else if (currentTile.hasShip && showShips) {
