@@ -27,14 +27,14 @@ class GameObject {
         for (i in 0..100) {
             val tile = Tile(i)
 
-            for (ship in player1Ships) {
+            for (ship in player2Ships) {
                 if (i in ship.coords) {
                     tile.hasShip = true
                 }
             }
 
             tile.coord = i
-            player1Tiles.add(tile)
+            player2Tiles.add(tile)
         }
     }
 }

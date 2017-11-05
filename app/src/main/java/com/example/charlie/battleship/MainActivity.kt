@@ -17,13 +17,22 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, PlayerActivity::class.java)
             startActivity(intent)
         }
+        newGame.setOnClickListener {
+            val gameObject = createGame()
+            gameObject.generateP1Tiles()
+            gameObject.generateP2Tiles()
+            GlobalData.gameObjectsData.add(gameObject)
+            val intent = Intent(applicationContext, PlayerActivity::class.java)
+            intent.putExtra("GAME", GlobalData.gameObjectsData.indexOf(gameObject))
+            startActivity(intent)
+        }
     }
 
 
     /**********************************
      * Create a new game
      *********************************/
-    fun createGame() {
+    fun createGame() : GameObject {
         val gameObject = GameObject()
 
         // Make ships
@@ -33,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         // Make tiles
         gameObject.generateP1Tiles()
         gameObject.generateP2Tiles()
+        return gameObject
     }
 
     fun generateShips() : MutableList<Ship> {
@@ -82,7 +92,7 @@ class MainActivity : AppCompatActivity() {
     fun get_rand() : Int {
         val i = Random().nextInt(100)
         Log.e("RANDOM NUM", "$i")
-        return Random().nextInt(i)
+        return i
     }
     /*********************************
      * End Create game functions

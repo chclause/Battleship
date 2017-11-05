@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
     tools:context="com.example.charlie.battleship.PlayerActivity">
 
     <GridView
@@ -13,10 +12,6 @@
         android:id="@+id/player1Grid"
         android:numColumns="10"
         android:gravity="center"
-        android:fadingEdgeLength="0px"
-        android:horizontalSpacing="0dp"
-        android:verticalSpacing="0dp"
-        android:listSelector="@null"
         >
     </GridView>
 
