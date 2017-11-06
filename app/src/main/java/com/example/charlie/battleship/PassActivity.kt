@@ -19,8 +19,11 @@ class PassActivity : AppCompatActivity() {
             playerPassScreenText.setText("Pass to Player 1")
         }
 
+        // Go to next activity, set the players turn to the next turn
         playerPassButton.setOnClickListener {
             GlobalData.player1Turn = !GlobalData.player1Turn
+            GlobalData.gameObjectsData[gameID].player1Turn = !GlobalData.gameObjectsData[gameID].player1Turn
+            GlobalData.saveGameObjectDataset()
             val intent = Intent(applicationContext, PlayerActivity::class.java)
             intent.putExtra("GAME", gameID)
             startActivity(intent)

@@ -19,7 +19,7 @@ class GridAdapter(getContext : Context, id: Int, large: Boolean) : BaseAdapter()
 
     // Required overrides
     override fun getItem(p0: Int): Any? { return null }
-    override fun getItemId(p0: Int): Long { return 0 }
+    override fun getItemId(p0: Int): Long { return p0.toLong() }
 
     // We want 100 tiles
     override fun getCount(): Int {
@@ -42,7 +42,7 @@ class GridAdapter(getContext : Context, id: Int, large: Boolean) : BaseAdapter()
         else {
             imageView = convertView as SquareImageView
         }
-
+        Log.e("TILES LENGTH: ", tiles.size.toString())
         val currentTile = tiles[position]
         // Figure out what each tile should be
         if (currentTile.hasSunkShip) {

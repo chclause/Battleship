@@ -1,11 +1,7 @@
 package com.example.charlie.battleship
 
-import android.util.Log
-import org.json.JSONArray
-import com.google.gson.Gson
+
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import java.util.*
 
 
 class GameObject {
@@ -20,8 +16,8 @@ class GameObject {
 
     var player1Turn = GlobalData.player1Turn
 
+    var status = "PLAYING"
     var player1Wins = false
-    var player2Wins = false
 
     fun generateP1Tiles() {
         for (i in 0..100) {
@@ -82,7 +78,6 @@ class GameObject {
                 }
             }
         }
-        Log.e("PLAYER 1 SHIPS, ", (player1SunkShips.size == 5 || player2SunkShips.size == 5).toString())
         return (player1SunkShips.size == 5 || player2SunkShips.size == 5)
     }
 
@@ -111,17 +106,27 @@ class GameObject {
 
     fun saveP1SunkShips(): String {
         val gson = GsonBuilder().setPrettyPrinting().create()
-        return gson.toJson(player1Ships)
+        return gson.toJson(player1SunkShips)
     }
 
     fun saveP2SunkShips(): String {
         val gson = GsonBuilder().setPrettyPrinting().create()
-        return gson.toJson(player2Ships)
+        return gson.toJson(player2SunkShips)
     }
 
     fun playerTurn(): String {
         val gson = GsonBuilder().setPrettyPrinting().create()
         return gson.toJson(GlobalData.player1Turn)
+    }
+
+    fun saveStatus(): String {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        return gson.toJson(status)
+    }
+
+    fun saveP1Wins(): String {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        return gson.toJson(player1Wins)
     }
 
 }

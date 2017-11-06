@@ -43,6 +43,9 @@ class PlayerActivity : AppCompatActivity() {
                            player1GridView.invalidateViews()
                            if (gameOver) {
                                // player1 wins
+                               gameObject.player1Wins = true
+                               gameObject.status = "COMPLETE"
+                               GlobalData.saveGameObjectDataset()
                                val intent = Intent(applicationContext, GameOverActivity::class.java)
                                intent.putExtra("WON", true)
                                startActivity(intent)
@@ -62,6 +65,9 @@ class PlayerActivity : AppCompatActivity() {
                            val gameOver = gameObject.updateShips(position)
                            if (gameOver) {
                                // Player 2 wins
+                               gameObject.player1Wins = false
+                               gameObject.status = "COMPLETE"
+                               GlobalData.saveGameObjectDataset()
                                val intent = Intent(applicationContext, GameOverActivity::class.java)
                                intent.putExtra("WON", false)
                                startActivity(intent)

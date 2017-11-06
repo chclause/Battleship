@@ -1,12 +1,12 @@
 package com.example.charlie.battleship
 
 import android.os.Environment
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
 
+/* Object used to hold a collection of GameObjects and load/save the data set to disk */
 object GlobalData {
 
     var gameObjectsData: MutableList<GameObject> = mutableListOf()
@@ -15,8 +15,6 @@ object GlobalData {
 
     var loaded = false
 
-    val size: Int
-        get() = gameObjectsData.size
 
     private val canReadExternalStorage: Boolean
         get() = when (Environment.getExternalStorageState()) {
@@ -26,7 +24,8 @@ object GlobalData {
     private val canWriteToExternalStorage: Boolean
         get() = Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
 
-
+    // Save the dataset, recursively delete and recreate all subdirectories, make more efficient if you have time
+    // Use the Documents file directory so you can verify data looks like what you want
     fun saveGameObjectDataset() {
         if (canWriteToExternalStorage) {
             var index = 0
@@ -48,10 +47,13 @@ object GlobalData {
                 File(subdirectory.absolutePath + File.separator + "p1SunkShips" + ".txt").writeText(it.saveP1SunkShips())
                 File(subdirectory.absolutePath + File.separator + "p2SunkShips" + ".txt").writeText(it.saveP2SunkShips())
                 File(subdirectory.absolutePath + File.separator + "pTurn" + ".txt").writeText(it.playerTurn())
+                File(subdirectory.absolutePath + File.separator + "status" + ".txt").writeText(it.saveStatus())
+                File(subdirectory.absolutePath + File.separator + "p1Wins" + ".txt").writeText(it.saveP1Wins())
             }
         }
     }
 
+    // Load the game objects from the file system
     fun loadGameObjectDataset() {
         var index = 0
         val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "GameObjects")
@@ -74,9 +76,13 @@ object GlobalData {
                     val p1TilesFile = File(subdirectory.absolutePath + File.separator + "p1Tiles" + ".txt")
                     gameObject.player1Tiles = Gson().fromJson(p1TilesFile.readText(), object : TypeToken<MutableList<Tile>>() {}.type)
                     val p2TilesFile = File(subdirectory.absolutePath + File.separator + "p2Tiles" + ".txt")
-                    gameObject.player1Tiles = Gson().fromJson(p2TilesFile.readText(), object : TypeToken<MutableList<Tile>>() {}.type)
+                    gameObject.player2Tiles = Gson().fromJson(p2TilesFile.readText(), object : TypeToken<MutableList<Tile>>() {}.type)
                     val playerTurnFile = File(subdirectory.absolutePath + File.separator + "pTurn" + ".txt")
                     gameObject.player1Turn = Gson().fromJson(playerTurnFile.readText(), object : TypeToken<Boolean>() {}.type)
+                    val p1WinsFile = File(subdirectory.absolutePath + File.separator + "p1Wins" + ".txt")
+                    gameObject.player1Wins = Gson().fromJson(p1WinsFile.readText(), object : TypeToken<Boolean>() {}.type)
+                    val statusFile = File(subdirectory.absolutePath + File.separator + "status" + ".txt")
+                    gameObject.status = Gson().fromJson(statusFile.readText(), object : TypeToken<String>() {}.type)
                 }
                 gameObjectsData.add(gameObject)
             }

@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // Permissions
+        // Permissions because I wrote to documents folder again so I could see the files written
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writePermissionCode)
@@ -26,11 +28,25 @@ class MainActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writePermissionCode)
             }
         }
+        // If app just opened load the dataset from disk
         if (!GlobalData.loaded) {
             GlobalData.loaded = true
             GlobalData.loadGameObjectDataset()
         }
-
+        // Set up the saved games
+        loadedGames.adapter = LoadedGameListAdapter(applicationContext)
+        loadedGames.onItemClickListener = object : AdapterView.OnItemClickListener {
+            override fun onItemClick(parent: AdapterView<*>, v: View,
+                                     position: Int, id: Long) {
+                val game = GlobalData.gameObjectsData[position]
+                if (game.status != "COMPLETE") {
+                    GlobalData.player1Turn = game.player1Turn
+                    val intent = Intent(applicationContext, PlayerActivity::class.java)
+                    intent.putExtra("GAME", position)
+                    startActivity(intent)
+                }
+            }
+        }
         // Button that starts a new game
         newGame.setOnClickListener {
             val gameObject = createGame()
@@ -39,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             GlobalData.gameObjectsData.add(gameObject)
             val intent = Intent(applicationContext, PlayerActivity::class.java)
             intent.putExtra("GAME", GlobalData.gameObjectsData.indexOf(gameObject))
-            Log.e("ADDING AT INDEX: ", GlobalData.gameObjectsData.indexOf(gameObject).toString())
             startActivity(intent)
         }
     }
