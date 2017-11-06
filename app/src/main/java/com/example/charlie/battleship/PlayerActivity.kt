@@ -17,8 +17,9 @@ class PlayerActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Get the game object
-        val gameID = intent.getIntExtra("GAME", 0)
+        val gameID = intent.getIntExtra("GAME", GlobalData.gameObjectsData.lastIndex)
         val gameObject = GlobalData.gameObjectsData[gameID]
+        var toastText = "Miss!"
 
         setContentView(R.layout.activity_player)
 
@@ -35,8 +36,8 @@ class PlayerActivity : AppCompatActivity() {
                             position: Int, id: Long) {
                when(GlobalData.player1Turn) {
                    true -> {
-                       GlobalData.saveGameObjectDataset()
                        if (!gameObject.player2Tiles[position].beenHit) {
+                           toastText = "Player 1 Hits"
                            gameObject.player2Tiles[position].beenHit = true
                            val gameOver = gameObject.updateShips(position)
                            player1GridView.invalidateViews()
@@ -55,6 +56,7 @@ class PlayerActivity : AppCompatActivity() {
                    }
                    false -> {
                        if (!gameObject.player1Tiles[position].beenHit) {
+                           toastText = "Player 2 Hits"
                            gameObject.player1Tiles[position].beenHit = true
                            player1GridView.invalidateViews()
                            val gameOver = gameObject.updateShips(position)
@@ -72,9 +74,15 @@ class PlayerActivity : AppCompatActivity() {
                        }
                    }
                }
-                Toast.makeText(this@PlayerActivity, "$position",
+               GlobalData.saveGameObjectDataset()
+                Toast.makeText(this@PlayerActivity, toastText,
                         Toast.LENGTH_LONG).show()
             }
+        }
+        fireButton.setOnClickListener {
+            GlobalData.saveGameObjectDataset()
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 

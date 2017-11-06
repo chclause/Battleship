@@ -86,6 +86,9 @@ class GameObject {
         return (player1SunkShips.size == 5 || player2SunkShips.size == 5)
     }
 
+    /*
+        Saving functionality using gson
+     */
     fun saveP1Ships(): String {
         val gson = GsonBuilder().setPrettyPrinting().create()
         return gson.toJson(player1Ships)
@@ -106,30 +109,19 @@ class GameObject {
         return gson.toJson(player2Tiles)
     }
 
+    fun saveP1SunkShips(): String {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        return gson.toJson(player1Ships)
+    }
+
+    fun saveP2SunkShips(): String {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        return gson.toJson(player2Ships)
+    }
+
     fun playerTurn(): String {
         val gson = GsonBuilder().setPrettyPrinting().create()
         return gson.toJson(GlobalData.player1Turn)
     }
 
-    fun saveGame(): String? {
-        val gson = GsonBuilder().setPrettyPrinting().create()
-        var game = ""
-        // Serialize ships
-        val p1Ships = gson.toJson(player1Ships)
-        val p2Ships = gson.toJson(player2Ships)
-        // Serialize tiles
-        val p1Tiles = gson.toJson(player1Tiles)
-        val p2Tiles = gson.toJson(player2Tiles)
-
-        val p1Wins = gson.toJson(player1Wins)
-        val p2Wins = gson.toJson(player2Wins)
-
-        val timeStamp = gson.toJson(Date().time)
-
-        //game = p1Ships + "\n" + p2Ships + "\n" + p1Tiles + "\n" + p2Tiles + "\n" + p1Wins + "\n" + p2Wins + "\n" + timeStamp + "\n"
-        game = p1Ships
-
-        val deSerialized: MutableList<Ship> = gson.fromJson(p1Ships, object : TypeToken<MutableList<Ship>>() {}.type)
-        return game
-    }
 }

@@ -26,7 +26,10 @@ class MainActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writePermissionCode)
             }
         }
-        GlobalData.loadGameObjectDataset()
+        if (!GlobalData.loaded) {
+            GlobalData.loaded = true
+            GlobalData.loadGameObjectDataset()
+        }
 
         // Button that starts a new game
         newGame.setOnClickListener {
@@ -36,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             GlobalData.gameObjectsData.add(gameObject)
             val intent = Intent(applicationContext, PlayerActivity::class.java)
             intent.putExtra("GAME", GlobalData.gameObjectsData.indexOf(gameObject))
+            Log.e("ADDING AT INDEX: ", GlobalData.gameObjectsData.indexOf(gameObject).toString())
             startActivity(intent)
         }
     }
