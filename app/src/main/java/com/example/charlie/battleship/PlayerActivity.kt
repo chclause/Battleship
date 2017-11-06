@@ -35,6 +35,7 @@ class PlayerActivity : AppCompatActivity() {
                             position: Int, id: Long) {
                when(GlobalData.player1Turn) {
                    true -> {
+                       GlobalData.saveGameObjectDataset()
                        if (!gameObject.player2Tiles[position].beenHit) {
                            gameObject.player2Tiles[position].beenHit = true
                            val gameOver = gameObject.updateShips(position)
@@ -45,9 +46,11 @@ class PlayerActivity : AppCompatActivity() {
                                intent.putExtra("WON", true)
                                startActivity(intent)
                            }
-                           val intent = Intent(applicationContext, PassActivity::class.java)
-                           intent.putExtra("GAME", GlobalData.gameObjectsData.indexOf(gameObject))
-                           startActivity(intent)
+                           else {
+                               val intent = Intent(applicationContext, PassActivity::class.java)
+                               intent.putExtra("GAME", GlobalData.gameObjectsData.indexOf(gameObject))
+                               startActivity(intent)
+                           }
                        }
                    }
                    false -> {
@@ -61,9 +64,11 @@ class PlayerActivity : AppCompatActivity() {
                                intent.putExtra("WON", false)
                                startActivity(intent)
                            }
-                           val intent = Intent(applicationContext, PassActivity::class.java)
-                           intent.putExtra("GAME", GlobalData.gameObjectsData.indexOf(gameObject))
-                           startActivity(intent)
+                           else {
+                               val intent = Intent(applicationContext, PassActivity::class.java)
+                               intent.putExtra("GAME", GlobalData.gameObjectsData.indexOf(gameObject))
+                               startActivity(intent)
+                           }
                        }
                    }
                }

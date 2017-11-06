@@ -1,9 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/black"
     tools:context="com.example.charlie.battleship.GameOverActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/upperBuffer"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/playerWinText"
+        android:text="PLAYER WINS!"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:layout_alignBottom="@id/upperBuffer"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:id="@+id/buttonSpace"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/playAgainButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="play again" />
+
+    <Button
+        android:id="@+id/homeButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_alignStart="@+id/playAgainButton"
+        android:layout_below="@+id/playAgainButton"
+        android:layout_marginTop="31dp"
+        android:text="Home" />
+
+</RelativeLayout>

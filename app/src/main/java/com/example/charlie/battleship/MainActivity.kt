@@ -1,22 +1,34 @@
 package com.example.charlie.battleship
 
+import android.Manifest
 import java.util.Random
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    var writePermissionCode: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        playerActivityButton.setOnClickListener {
-            val intent = Intent(applicationContext, PlayerActivity::class.java)
-            startActivity(intent)
+        // Permissions
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writePermissionCode)
+            }
+            else {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writePermissionCode)
+            }
         }
+        GlobalData.loadGameObjectDataset()
+
+        // Button that starts a new game
         newGame.setOnClickListener {
             val gameObject = createGame()
             gameObject.generateP1Tiles()
