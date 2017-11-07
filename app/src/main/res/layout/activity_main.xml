@@ -12,16 +12,35 @@
         android:id="@+id/loadedGames"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="10">
+        android:layout_weight="20"
+        android:choiceMode="singleChoice"
+        android:listSelector="#6666">
 
     </ListView>
 
-    <Button
-        android:id="@+id/newGame"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="new game"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/newGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="new game"
+            android:layout_gravity="start"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/loadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="load game"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="delete"
+            android:layout_gravity="end"/>
+    </LinearLayout>
 
 </LinearLayout>

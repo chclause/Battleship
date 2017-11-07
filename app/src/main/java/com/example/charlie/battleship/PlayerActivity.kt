@@ -30,14 +30,21 @@ class PlayerActivity : AppCompatActivity() {
         val player2GridView: GridView = this.findViewById(R.id.smallGrid)
         player2GridView.adapter = GridAdapter(this, gameID, false)
 
-        // Player has clicked a tile
+
+        // Player has clicked a tile, see if it is a hit, then if the game should end, otherwise just end the players turn
         player1GridView.onItemClickListener = object : OnItemClickListener {
            override fun onItemClick(parent: AdapterView<*>, v: View,
                             position: Int, id: Long) {
+               gameObject.status = "IN PROGRESS"
                when(GlobalData.player1Turn) {
                    true -> {
                        if (!gameObject.player2Tiles[position].beenHit) {
-                           toastText = "Player 1 Hits"
+                           if (gameObject.player2Tiles[position].hasShip) {
+                               toastText = "Player 1 Hits!"
+                           }
+                           else {
+                               toastText = "Player 1 Misses!"
+                           }
                            gameObject.player2Tiles[position].beenHit = true
                            val gameOver = gameObject.updateShips(position)
                            player1GridView.invalidateViews()
@@ -59,7 +66,12 @@ class PlayerActivity : AppCompatActivity() {
                    }
                    false -> {
                        if (!gameObject.player1Tiles[position].beenHit) {
-                           toastText = "Player 2 Hits"
+                           if (gameObject.player1Tiles[position].hasShip) {
+                               toastText = "Player 2 Hits!"
+                           }
+                           else {
+                               toastText = "Player 2 Misses!"
+                           }
                            gameObject.player1Tiles[position].beenHit = true
                            player1GridView.invalidateViews()
                            val gameOver = gameObject.updateShips(position)
@@ -80,12 +92,14 @@ class PlayerActivity : AppCompatActivity() {
                        }
                    }
                }
+               // Save state and display if the player hit or missed
                GlobalData.saveGameObjectDataset()
                 Toast.makeText(this@PlayerActivity, toastText,
                         Toast.LENGTH_LONG).show()
             }
         }
-        fireButton.setOnClickListener {
+        // Allow the player to go home because I disabled the back button
+        homeButton.setOnClickListener {
             GlobalData.saveGameObjectDataset()
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)

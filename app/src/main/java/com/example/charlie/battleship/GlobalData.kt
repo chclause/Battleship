@@ -15,6 +15,13 @@ object GlobalData {
 
     var loaded = false
 
+    fun size(): Int {
+        if (gameObjectsData.isEmpty()) {
+            return 0
+        }
+        return gameObjectsData.size
+    }
+
 
     private val canReadExternalStorage: Boolean
         get() = when (Environment.getExternalStorageState()) {
@@ -24,8 +31,10 @@ object GlobalData {
     private val canWriteToExternalStorage: Boolean
         get() = Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
 
-    // Save the dataset, recursively delete and recreate all subdirectories, make more efficient if you have time
-    // Use the Documents file directory so you can verify data looks like what you want
+    /* Save the dataset, recursively delete and recreate all subdirectories, make more efficient if you have time.
+         Writes individual files for game objects inside a game subdirectory
+         Use the Documents file directory so you can verify data looks like what you want.
+    */
     fun saveGameObjectDataset() {
         if (canWriteToExternalStorage) {
             var index = 0
@@ -53,7 +62,7 @@ object GlobalData {
         }
     }
 
-    // Load the game objects from the file system
+    // Load the game objects from the file system, it will be a subdirectory with an index for a name
     fun loadGameObjectDataset() {
         var index = 0
         val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "GameObjects")
@@ -61,6 +70,9 @@ object GlobalData {
             for (file in directory.listFiles()) {
                 val subdirectory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "GameObjects/" + index++)
                 val gameObject: GameObject = GameObject()
+                if (!subdirectory.exists()) {
+                    return
+                }
                 for (item in subdirectory.listFiles()) {
                     // Deserialize ships
                     val p1ShipsFile = File(subdirectory.absolutePath + File.separator + "p1Ships" + ".txt")

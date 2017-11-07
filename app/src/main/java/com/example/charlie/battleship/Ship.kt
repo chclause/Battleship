@@ -6,12 +6,6 @@ class Ship {
     var hits   : MutableList<Int> = mutableListOf()
     var isSunk = false
 
-    lateinit var direction : Direction
-
-    fun size() : Int {
-        return coords.size
-    }
-
     fun shipIsSunk() : Boolean {
         hits.sort()
         coords.sort()

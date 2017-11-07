@@ -16,7 +16,7 @@ class GameObject {
 
     var player1Turn = GlobalData.player1Turn
 
-    var status = "PLAYING"
+    var status = "STARTED"
     var player1Wins = false
 
     fun generateP1Tiles() {

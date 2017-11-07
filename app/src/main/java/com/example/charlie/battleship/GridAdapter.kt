@@ -42,7 +42,6 @@ class GridAdapter(getContext : Context, id: Int, large: Boolean) : BaseAdapter()
         else {
             imageView = convertView as SquareImageView
         }
-        Log.e("TILES LENGTH: ", tiles.size.toString())
         val currentTile = tiles[position]
         // Figure out what each tile should be
         if (currentTile.hasSunkShip) {

@@ -16,16 +16,31 @@ class LoadedGameListAdapter(context: Context) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View {
         val textView = TextView(mContext)
-        val game = GlobalData.gameObjectsData[position]
-        if (game.status == "PLAYING") {
-            textView.setText(game.status + "\n" +
+        // Change the order so newest is at the top
+        val game = GlobalData.gameObjectsData[GlobalData.gameObjectsData.size - position - 1]
+        var statusText = game.status
+        if (position == 0) {
+            statusText = statusText + " - Newest Game"
+        }
+        if (game.status == "STARTED") {
+            for (tile in game.player1Tiles) {
+                if (tile.beenHit) {
+                    statusText = "IN PROGRESS"
+                    game.status = "IN PROGRESS"
+                    break
+                }
+            }
+        }
+        // Geez this is hard to look upon, fix this later
+        if (game.status == "STARTED" || game.status == "IN PROGRESS") {
+            textView.setText(statusText + "\n" +
                     "Player1 Ships Remaining: " + (5-game.player1SunkShips.size).toString() + "\n" +
                     "Player2 Ships Remaining: " + (5-game.player2SunkShips.size).toString() + "\n")
         }
         else {
             when(game.player1Wins) {
-                true -> textView.setText("Player 1 Won the Game\n")
-                false -> textView.setText("Player 2 Won the Game\n")
+                true -> textView.setText("COMPLETE\n" + "Player 1 Won the Game\n")
+                false -> textView.setText("COMPLETE\n" + "Player 2 Won the Game\n")
             }
         }
         textView.setTextColor(Color.WHITE)
@@ -33,7 +48,7 @@ class LoadedGameListAdapter(context: Context) : BaseAdapter() {
     }
 
     override fun getItem(position: Int): Any {
-        return "TEST"
+        return ""
     }
 
     override fun getItemId(position: Int): Long {
@@ -41,7 +56,7 @@ class LoadedGameListAdapter(context: Context) : BaseAdapter() {
     }
 
     override fun getCount(): Int {
-        return GlobalData.gameObjectsData.size
+        return GlobalData.size()
     }
 
 }

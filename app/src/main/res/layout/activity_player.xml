@@ -22,7 +22,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fireButton"
+        android:id="@+id/homeButton"
         android:text="Home"
         android:textColor="#ffffff"
         android:background="#000000"
